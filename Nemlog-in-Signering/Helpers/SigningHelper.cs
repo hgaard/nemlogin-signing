@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Schultz.Nemlogin.Signing.Configuration;
+using Schultz.Nemlogin.Signing.Models;
 
 namespace Schultz.Nemlogin.Signing.Helpers
 {
@@ -28,7 +30,7 @@ namespace Schultz.Nemlogin.Signing.Helpers
             };
 
             // Note that this implementation relies on a signing certificate being configured to Nemlog-in SSO
-            var certificate = SigningConfiguration.Instance.SigningCertificate;
+            var certificate = SigningConfiguration.Instance.SigningCertificateThumbprint;
 
             // Generate digest and sign
             var digest = string.Concat(request.SignText, request.EntitId, request.TargetUrl);
@@ -71,7 +73,7 @@ namespace Schultz.Nemlogin.Signing.Helpers
             }
 
             var cert = GetCertificate(response);
-            var expectedCertificateSubject = SigningConfiguration.Instance.SigningServiceCertificateSubject;
+            var expectedCertificateSubject = SigningConfiguration.Instance.SigningAuthorityServiceCertificateSubject;
             if (!cert.Verify() && cert.SubjectName.Name != expectedCertificateSubject)
                 throw new DigitalSigneringFailedException(String.Format("Certificate used for signing of signing response not valid. Certificate subject: {0}", cert.SubjectName.Name));
 

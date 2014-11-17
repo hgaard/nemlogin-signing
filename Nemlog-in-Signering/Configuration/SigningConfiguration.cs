@@ -13,7 +13,7 @@ namespace Schultz.Nemlogin.Signing.Configuration
         /// </value>
         public static SigningConfiguration Instance
         {
-            get { return (SigningConfiguration)ConfigurationManager.GetSection("kombit.bom.signering"); }
+            get { return (SigningConfiguration)ConfigurationManager.GetSection("Nemlogin.Signing"); }
         }
 
         [ConfigurationProperty("entityId", IsRequired = true)]
@@ -30,16 +30,39 @@ namespace Schultz.Nemlogin.Signing.Configuration
             set { this["signingServiceUrl"] = value; }
         }
 
-        [ConfigurationProperty("signingServiceCertificateSubject", IsRequired = true)]
-        public string SigningServiceCertificateSubject
+        [ConfigurationProperty("signingAuthorityServiceCertificateSubject", IsRequired = true)]
+        public string SigningAuthorityServiceCertificateSubject
         {
-            get { return (string)this["signingServiceCertificateSubject"]; }
-            set { this["signingServiceCertificateSubject"] = value; }
+            get { return (string)this["signingAuthorityServiceCertificateSubject"]; }
+            set { this["signingAuthorityServiceCertificateSubject"] = value; }
         }
 
 
         // TODO!!!
-        public X509Certificate2 SigningCertificate { get; set; }
+        public X509Certificate2 SigningCertificateThumbprint
+        {
+            get { return GetCertificate((string)this["signingCertificateThumbprint"]); }
+                
+            set { this["signingCertificateThumbprint"] = value; }
+        }
 
+         public X509Certificate2 GetCertificate(string thumbprint)
+         {
+             var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            try
+            {
+                store.Open(OpenFlags.ReadOnly);
+                var found = store.Certificates.Find( X509FindType.FindByThumbprint, thumbprint, false);
+                if (found.Count == 0)
+                    throw new ConfigurationErrorsException("No certificate found");
+                if (found.Count > 1)
+                    throw new ConfigurationErrorsException("More than one certificate found");
+                return found[0];
+            }
+            finally
+            {
+                store.Close();
+            }
+        }
     }
 }
