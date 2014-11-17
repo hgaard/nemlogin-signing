@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nemlog-in-Signering", "Nemlog-in-Signering\Nemlog-in-Signering.csproj", "{3C6BBF64-B062-496D-B39F-21DDAE808F8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nemlog-in-Signering.Tests", "Nemlog-in-Signering.Tests\Nemlog-in-Signering.Tests.csproj", "{EC3D991C-E26A-400B-8684-7E8E1D574A4F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C6BBF64-B062-496D-B39F-21DDAE808F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C6BBF64-B062-496D-B39F-21DDAE808F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C6BBF64-B062-496D-B39F-21DDAE808F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C6BBF64-B062-496D-B39F-21DDAE808F8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC3D991C-E26A-400B-8684-7E8E1D574A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC3D991C-E26A-400B-8684-7E8E1D574A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC3D991C-E26A-400B-8684-7E8E1D574A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC3D991C-E26A-400B-8684-7E8E1D574A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
