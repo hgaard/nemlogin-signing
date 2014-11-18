@@ -37,32 +37,13 @@ namespace Schultz.Nemlogin.Signing.Configuration
             set { this["signingAuthorityServiceCertificateSubject"] = value; }
         }
 
-
-        // TODO!!!
-        public X509Certificate2 SigningCertificateThumbprint
+        [ConfigurationProperty("signingCertificateThumbprint", IsRequired = true)]
+        public string SigningCertificateThumbprint
         {
-            get { return GetCertificate((string)this["signingCertificateThumbprint"]); }
-                
+            get { return (string)this["signingCertificateThumbprint"]; }
             set { this["signingCertificateThumbprint"] = value; }
         }
 
-         public X509Certificate2 GetCertificate(string thumbprint)
-         {
-             var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
-            try
-            {
-                store.Open(OpenFlags.ReadOnly);
-                var found = store.Certificates.Find( X509FindType.FindByThumbprint, thumbprint, false);
-                if (found.Count == 0)
-                    throw new ConfigurationErrorsException("No certificate found");
-                if (found.Count > 1)
-                    throw new ConfigurationErrorsException("More than one certificate found");
-                return found[0];
-            }
-            finally
-            {
-                store.Close();
-            }
-        }
+        
     }
 }
