@@ -6,8 +6,8 @@
     <ProjectGuid>{EC3D991C-E26A-400B-8684-7E8E1D574A4F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nemlog_in_Signering.Tests</RootNamespace>
-    <AssemblyName>Nemlog-in-Signering.Tests</AssemblyName>
+    <RootNamespace>Hgaard.Nemlogin.Signing.Tests</RootNamespace>
+    <AssemblyName>Hgaard.Nemlogin.Signing.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -48,14 +48,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Nemlog-in-Signering\Nemlog-in-Signering.csproj">
-      <Project>{3C6BBF64-B062-496D-B39F-21DDAE808F8B}</Project>
-      <Name>Nemlog-in-Signering</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
