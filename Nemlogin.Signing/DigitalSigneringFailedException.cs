@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Schultz.Nemlogin.Signing.Helpers
+namespace Hgaard.Nemlogin.Signing.Helpers
 {
     /// <summary>
     /// Exception thrown if digital signering fails

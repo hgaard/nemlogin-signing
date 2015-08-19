@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Schultz.Nemlogin.Signing.Controllers
+namespace Hgaard.Nemlogin.Signing.Controllers
 {
     public class HomeController : Controller
     {

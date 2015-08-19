@@ -6,12 +6,12 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Schultz.Nemlogin.Signing.Configuration;
-using Schultz.Nemlogin.Signing.Models;
+using Hgaard.Nemlogin.Signing.Configuration;
+using Hgaard.Nemlogin.Signing.Models;
 
-namespace Schultz.Nemlogin.Signing.Helpers
+namespace Hgaard.Nemlogin.Signing
 {
-    public class SigningHelper
+    public class Signer
     {
         public static SigningRequest BuildRequest(string id, string signText, string targetUrl)
         {
@@ -27,7 +27,7 @@ namespace Schultz.Nemlogin.Signing.Helpers
             };
 
             // Note that this implementation relies on a signing certificate being configured to Nemlog-in SSO
-            var certificate = GetCertificate(SigningConfiguration.Instance.SigningCertificateThumbprint);
+            var certificate = GetCertificateFromCertStore(SigningConfiguration.Instance.SigningCertificateThumbprint);
 
             // Generate digest and sign
             var digest = string.Concat(request.SignText, request.EntitId, request.TargetUrl);
@@ -53,46 +53,46 @@ namespace Schultz.Nemlogin.Signing.Helpers
                 throw new DigitalSigneringFailedException(String.Format("An error occured, code {0}", response.Status));
             }
 
-            //if (response.RequestId != requestId)
-            //{
-            //    throw new DigitalSigneringFailedException(String.Format("RequestId does not match expected value. expected: {0}, actual:{1}", requestId, response.RequestId));
-            //}
+            if (response.RequestId != requestId)
+            {
+                throw new DigitalSigneringFailedException(String.Format("RequestId does not match expected value. expected: {0}, actual:{1}", requestId, response.RequestId));
+            }
 
-            //if (String.IsNullOrEmpty(response.SignedSignatureProof))
-            //{
-            //    throw new DigitalSigneringFailedException(String.Format("The response did not contain a signature proof. expected: {0}, actual:{1}", signText, response.SignedSignatureProof));
-            //}
+            if (String.IsNullOrEmpty(response.SignedSignatureProof))
+            {
+                throw new DigitalSigneringFailedException(String.Format("The response did not contain a signature proof. expected: {0}, actual:{1}", signText, response.SignedSignatureProof));
+            }
 
-            //var recievedSignText = GetSignText(response.SignedSignatureProof);
-            //if (recievedSignText != signText)
-            //{
-            //    throw new DigitalSigneringFailedException(String.Format("The signtext did not match the expected value. expected: {0}, actual:{1}", signText, recievedSignText));
-            //}
+            var recievedSignText = GetSignText(response.SignedSignatureProof);
+            if (recievedSignText != signText)
+            {
+                throw new DigitalSigneringFailedException(String.Format("The signtext did not match the expected value. expected: {0}, actual:{1}", signText, recievedSignText));
+            }
 
-            //var cert = GetCertificate(response);
-            //var expectedCertificateSubject = SigningConfiguration.Instance.SigningAuthorityServiceCertificateSubject;
-            //if (!cert.Verify() && cert.SubjectName.Name != expectedCertificateSubject)
-            //    throw new DigitalSigneringFailedException(String.Format("Certificate used for signing of signing response not valid. Certificate subject: {0}", cert.SubjectName.Name));
+            var cert = GetCertificateFromResponse(response);
+            var expectedCertificateSubject = SigningConfiguration.Instance.SigningAuthorityServiceCertificateSubject;
+            if (!cert.Verify() && cert.SubjectName.Name != expectedCertificateSubject)
+                throw new DigitalSigneringFailedException(String.Format("Certificate used for signing of signing response not valid. Certificate subject: {0}", cert.SubjectName.Name));
 
-            //var calculatedFingerprint = string.Concat(response.RequestId, response.Status, response.EntityId, response.Pid,
-            //                                response.Cvr, response.Rid, response.SignedSignatureProof);
-            //var key = (RSACryptoServiceProvider)cert.PublicKey.Key;
+            var calculatedFingerprint = string.Concat(response.RequestId, response.Status, response.EntityId, response.Pid,
+                                            response.Cvr, response.Rid, response.SignedSignatureProof);
+            var key = (RSACryptoServiceProvider)cert.PublicKey.Key;
 
-            //var signatureValid = key.VerifyData(Encoding.UTF8.GetBytes(calculatedFingerprint), CryptoConfig.CreateFromName("SHA256"), Convert.FromBase64String(response.SignedFingerPrint));
-            //if (!signatureValid)
-            //{
-            //    throw new DigitalSigneringFailedException("Signature could not be verified");
-            //}
+            var signatureValid = key.VerifyData(Encoding.UTF8.GetBytes(calculatedFingerprint), CryptoConfig.CreateFromName("SHA256"), Convert.FromBase64String(response.SignedFingerPrint));
+            if (!signatureValid)
+            {
+                throw new DigitalSigneringFailedException("Signature could not be verified");
+            }
 
             return true;
         }
 
-        private static X509Certificate2 GetCertificate(SigneringResponse response)
+        private static X509Certificate2 GetCertificateFromResponse(SigneringResponse response)
         {
-            var signaturBevis = Encoding.UTF8.GetString(Convert.FromBase64String(response.SignedSignatureProof));
+            var signatureProof = Encoding.UTF8.GetString(Convert.FromBase64String(response.SignedSignatureProof));
 
             var doc = new XmlDocument() { PreserveWhitespace = true };
-            doc.LoadXml(signaturBevis);
+            doc.LoadXml(signatureProof);
             var signedXml = new SignedXml(doc);
 
             var nodeList = doc.GetElementsByTagName("Signature");
@@ -112,7 +112,7 @@ namespace Schultz.Nemlogin.Signing.Helpers
             return XDocument.Parse(signaturBevis).Descendants(dsns + "SignatureProperty").Where(x => x.Element(oons + "Name").Value == "signtext").Elements(oons + "Value").Single().Value;
         }
 
-        private static X509Certificate2 GetCertificate(string thumbprint)
+        private static X509Certificate2 GetCertificateFromCertStore(string thumbprint)
         {
             var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
             try

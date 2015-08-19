@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Schultz.Nemlogin.Signing
+namespace Hgaard.Nemlogin.Signing
 {
     public class RouteConfig
     {

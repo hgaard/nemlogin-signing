@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Schultz.Nemlogin.Signing.Configuration
+namespace Hgaard.Nemlogin.Signing.Configuration
 {
     public class SigningConfiguration : ConfigurationSection
     {

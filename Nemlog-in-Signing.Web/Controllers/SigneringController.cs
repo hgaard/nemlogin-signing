@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Schultz.Nemlogin.Signing.Helpers;
-using Schultz.Nemlogin.Signing.Models;
+using Hgaard.Nemlogin.Signing.Helpers;
+using Hgaard.Nemlogin.Signing.Models;
 
-namespace Schultz.Nemlogin.Signing.Controllers
+namespace Hgaard.Nemlogin.Signing.Controllers
 {
     public class SigningController : Controller
     {
@@ -14,7 +14,7 @@ namespace Schultz.Nemlogin.Signing.Controllers
         {
             
             var messageId = Guid.NewGuid().ToString();
-            var request = SigningHelper.BuildRequest(messageId, Message, Url.Action("ValidateSigning", "Signing", new RouteValueDictionary() { { "id", messageId } }, Request.Url.Scheme, Request.Url.Host));
+            var request = Signer.BuildRequest(messageId, Message, Url.Action("ValidateSigning", "Signing", new RouteValueDictionary() { { "id", messageId } }, Request.Url.Scheme, Request.Url.Host));
             return View(request);
         }
 
@@ -33,7 +33,7 @@ namespace Schultz.Nemlogin.Signing.Controllers
                 Rid = Request.Form["RID"]
             };
 
-            var validationResult = SigningHelper.ValidateResponse(response, id, Message);
+            var validationResult = Signer.ValidateResponse(response, id, Message);
            
             return RedirectToAction("Index", "Home", new RouteValueDictionary() { { "result", validationResult } }); 
         }

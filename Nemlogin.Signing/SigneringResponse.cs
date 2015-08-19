@@ -1,4 +1,4 @@
-﻿namespace Schultz.Nemlogin.Signing.Models
+﻿namespace Hgaard.Nemlogin.Signing.Models
 {
     public class SigneringResponse
     {

@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Schultz.Nemlogin.Signing.MvcApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Hgaard.Nemlogin.Signing.MvcApplication" Language="C#" %>
