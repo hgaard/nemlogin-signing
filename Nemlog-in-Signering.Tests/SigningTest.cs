@@ -8,13 +8,13 @@ namespace Hgaard.Nemlogin.Signing.Tests
         public void VerifySimpleSigning()
         {
             // Arrange
-            var request = Signer.BuildRequest("myFirstId", "Hello signer", "http://a-dummy-url"); 
-
+            // todo
 
             // Act 
+            var request = Signer.BuildRequest("myFirstId", "Hello signer", "http://a-dummy-url");
 
             //Assert
-            Assert.Equal()
+            Assert.Equal(request.RequestId, "myFirstId");
         }
     }
 }

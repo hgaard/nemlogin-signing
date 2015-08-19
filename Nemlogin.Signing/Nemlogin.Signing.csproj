@@ -43,11 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\SigningConfiguration.cs" />
-    <Compile Include="DigitalSigneringFailedException.cs" />
+    <Compile Include="Exceptions\DigitalSigneringFailedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SigneringResponse.cs" />
+    <Compile Include="Models\SigneringResponse.cs" />
     <Compile Include="Signer.cs" />
-    <Compile Include="SigningRequest.cs" />
+    <Compile Include="Models\SigningRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

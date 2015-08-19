@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Hgaard.Nemlogin.Signing.Helpers;
 using Hgaard.Nemlogin.Signing.Models;
 
 namespace Hgaard.Nemlogin.Signing.Controllers

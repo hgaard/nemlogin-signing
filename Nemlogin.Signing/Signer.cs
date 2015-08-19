@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Hgaard.Nemlogin.Signing.Configuration;
 using Hgaard.Nemlogin.Signing.Models;
+using Hgaard.Nemlogin.Signing.Exceptions;
 
 namespace Hgaard.Nemlogin.Signing
 {
