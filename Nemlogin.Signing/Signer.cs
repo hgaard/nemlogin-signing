@@ -110,7 +110,11 @@ namespace Hgaard.Nemlogin.Signing
             var oons = XNamespace.Get("http://www.openoces.org/2006/07/signature#");
             var dsns = XNamespace.Get("http://www.w3.org/2000/09/xmldsig#");
 
-            return XDocument.Parse(signaturBevis).Descendants(dsns + "SignatureProperty").Where(x => x.Element(oons + "Name").Value == "signtext").Elements(oons + "Value").Single().Value;
+            return XDocument.Parse(signaturBevis).Descendants(dsns + "SignatureProperty").Where(x =>
+            {
+                var xElement = x.Element(oons + "Name");
+                return xElement != null && xElement.Value == "signtext";
+            }).Elements(oons + "Value").Single().Value;
         }
 
         private static X509Certificate2 GetCertificateFromCertStore(string thumbprint)
