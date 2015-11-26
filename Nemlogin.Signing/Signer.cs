@@ -19,24 +19,24 @@ namespace Hgaard.Nemlogin.Signing
             var request = new SigningRequest()
             {
                 SignText = Convert.ToBase64String(Encoding.UTF8.GetBytes(signText)),
-                EntitId = SigningConfiguration.Instance.EntityId,
+                //EntitId = SigningConfiguration.Instance.EntityId,
                 RequestId = id,
                 TargetUrl = targetUrl,
                 DigestAlgorithm = "SHA256",
                 SignTextFormat = "HTML",
-                SigneringEndPoint = SigningConfiguration.Instance.SigningServiceUrl
+                //SigneringEndPoint = SigningConfiguration.Instance.SigningServiceUrl
             };
 
             // Note that this implementation relies on a signing certificate being configured to Nemlog-in SSO
-            var certificate = GetCertificateFromCertStore(SigningConfiguration.Instance.SigningCertificateThumbprint);
+            //var certificate = GetCertificateFromCertStore(SigningConfiguration.Instance.SigningCertificateThumbprint);
 
-            // Generate digest and sign
-            var digest = string.Concat(request.SignText, request.EntitId, request.TargetUrl);
-            var digestBytes = Encoding.UTF8.GetBytes(digest);
-            var key = (RSACryptoServiceProvider)certificate.PrivateKey;
-            var hashAlgo = CryptoConfig.CreateFromName(request.DigestAlgorithm);
-            var signedFingerprint = key.SignData(digestBytes, hashAlgo);
-            request.SignedFingerprint = Convert.ToBase64String(signedFingerprint);
+            //// Generate digest and sign
+            //var digest = string.Concat(request.SignText, request.EntitId, request.TargetUrl);
+            //var digestBytes = Encoding.UTF8.GetBytes(digest);
+            //var key = (RSACryptoServiceProvider)certificate.PrivateKey;
+            //var hashAlgo = CryptoConfig.CreateFromName(request.DigestAlgorithm);
+            //var signedFingerprint = key.SignData(digestBytes, hashAlgo);
+            //request.SignedFingerprint = Convert.ToBase64String(signedFingerprint);
 
             return request;
         }
